@@ -60,5 +60,25 @@ router.post("/namecard/create", async function (req, res) {
     res.redirect("/main")
 })
 
+router.get("/namecard/delete/:id", async function (req, res) {
+    console.log(req.params.id)
+    await connection.query("delete from namecard where id = ?", [req.params.id])
+    res.redirect("/main")
+})
+
+router.post("/namecard/modify", async function (req, res) {
+    console.log(req.body)
+    await connection.query(`update namecard 
+                            set name = ?, department = ?, title = ?, phone = ?, email = ?, address = ?, web = ?
+                            where id = ?`,
+        [req.body.name, req.body.department,
+        req.body.title, req.body.phone,
+        req.body.email, req.body.address, req.body.web,
+        req.body.id])
+    res.redirect("/main")
+
+
+})
+
 
 module.exports = router
